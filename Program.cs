@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculadora
 {
@@ -11,16 +7,17 @@ namespace Calculadora
         static void Main(string[] args)
         {
             int opcao = 10;
-            int[] numeros = { };
             int a = 0;
             int b = 0;
             int resposta = 0;
 
             while (opcao != 0) {
                 opcao = menu();
-                numeros = doisNumeros();
-                a = numeros[0];
-                b = numeros[1];
+
+                Console.Write("Digite o primeiro número: ");
+                a = lerNumero();
+                Console.Write("Digite o segundo número: ");
+                b = lerNumero();
 
                 switch(opcao)
                 {
@@ -55,19 +52,36 @@ namespace Calculadora
             Console.WriteLine("0 - Sair");
             Console.Write("Opção: ");
             int opcaoMenu = Console.Read();
+            if (opcaoMenu < 0 || opcaoMenu > 4)
+            {
+                Console.WriteLine("Opção inválida!");
+                return menu();
+            }
             return opcaoMenu;
         }
 
-        private static int[] doisNumeros()
+        private static int lerNumero()
         {
-            Console.Write("Primeiro número: ");
-            int a = Console.Read();
-            Console.Write("Segundo número: ");
-            int b = Console.Read();
+            try
+            {
+                int numero = Console.Read();
+                return numero;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Não é um número, tente novamente");
+                return lerNumero();
+            }
 
-            int[] doisNumerosArr = {a, b};
+            //if (int.TryParse(numeroEntrada, out numero))
+            //{
+            //    return numero;
+            //} else
+            //{
+            //    Console.Write("Não é um número, tente novamente");
+            //    return lerNumero();
+            //}
 
-            return doisNumerosArr;
         }
 
         private static int soma(int a, int b)
@@ -87,6 +101,10 @@ namespace Calculadora
 
         private static int divisao(int a, int b)
         {
+            if (a == 0 || b == 0)
+            {
+                Console.WriteLine("Erro, divisão por zero!");
+            }
             return a / b;
         }
     }
