@@ -11,14 +11,11 @@ namespace Calculadora
             int b = 0;
             int resposta = 0;
 
-            while (opcao != 0) {
-                opcao = menu();
-
-                Console.Write("Digite o primeiro número: ");
-                a = lerNumero();
-                Console.Write("Digite o segundo número: ");
-                b = lerNumero();
-
+            opcao = menu();
+            while (opcao != 0) 
+            {
+                a = lerNumero("Digite o primeiro número: ");
+                b = lerNumero("Digite o segundo número: ");
                 switch(opcao)
                 {
                     case 1:
@@ -31,12 +28,11 @@ namespace Calculadora
                         resposta = multiplicacao(a, b);
                         break;
                     case 4:
-                        resposta = divisao(a, b);
+                        resposta = (int)divisao(a, b);
                         break;
-
                 }
-
                 Console.WriteLine("Resposta = " + resposta);
+                opcao = menu();
             }
         }
 
@@ -51,37 +47,47 @@ namespace Calculadora
             Console.WriteLine("4 - Divisão");
             Console.WriteLine("0 - Sair");
             Console.Write("Opção: ");
-            int opcaoMenu = Console.Read();
-            if (opcaoMenu < 0 || opcaoMenu > 4)
+            
+            bool opcaoValida = false;
+            int opcaoMenu = -1;
+
+            while (!opcaoValida)
             {
-                Console.WriteLine("Opção inválida!");
-                return menu();
+                try
+                {
+                    opcaoMenu = int.Parse(Console.ReadLine());
+                    if (opcaoMenu >= 0 && opcaoMenu <= 4)
+                    {
+                        opcaoValida = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Opção inválida!");
+                }
             }
             return opcaoMenu;
         }
 
-        private static int lerNumero()
+        private static int lerNumero(string mensagem)
         {
-            try
-            {
-                int numero = Console.Read();
-                return numero;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Não é um número, tente novamente");
-                return lerNumero();
-            }
+            int numero = 0;
+            bool numeroValido = false;
 
-            //if (int.TryParse(numeroEntrada, out numero))
-            //{
-            //    return numero;
-            //} else
-            //{
-            //    Console.Write("Não é um número, tente novamente");
-            //    return lerNumero();
-            //}
-
+            while (!numeroValido)
+            {
+                try
+                {
+                    Console.Write(mensagem);
+                    numero = int.Parse(Console.ReadLine());
+                    numeroValido = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Não é um número, tente novamente");
+                }
+            }
+            return numero;
         }
 
         private static int soma(int a, int b)
@@ -99,13 +105,21 @@ namespace Calculadora
             return a * b;
         }
 
-        private static int divisao(int a, int b)
+        private static double divisao(double a, double b)
         {
-            if (a == 0 || b == 0)
+            double resposta = 0.0;
+            try
+            {
+                if (b != 0)
+                {
+                    resposta = a / b;
+                }
+            }
+            catch
             {
                 Console.WriteLine("Erro, divisão por zero!");
             }
-            return a / b;
+            return resposta;
         }
     }
 }
