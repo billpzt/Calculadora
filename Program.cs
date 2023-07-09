@@ -10,6 +10,8 @@ namespace Calculadora
             int a = 0;
             int b = 0;
             int resposta = 0;
+            double respostaDiv = 0.0;
+            bool escolhaDiv = false;
 
             opcao = menu();
             while (opcao != 0) 
@@ -19,25 +21,36 @@ namespace Calculadora
                 switch(opcao)
                 {
                     case 1:
+                        escolhaDiv = false;
                         resposta = soma(a, b);
                         break;
                     case 2:
+                        escolhaDiv = false;
                         resposta = subtracao(a, b);
                         break;
                     case 3:
+                        escolhaDiv = false;
                         resposta = multiplicacao(a, b);
                         break;
                     case 4:
-                        resposta = (int)divisao(a, b);
+                        escolhaDiv = true;
+                        respostaDiv = (double)divisao(a, b);
                         break;
                 }
-                Console.WriteLine("Resposta = " + resposta);
+                if (escolhaDiv)
+                {
+                    Console.WriteLine("Resposta = " + respostaDiv);
+                } else
+                {
+                    Console.WriteLine("Resposta = " + resposta);
+                }
                 opcao = menu();
             }
         }
 
         private static int menu()
         {
+            Console.WriteLine("");
             Console.WriteLine("### CALCULADORA ###");
             Console.WriteLine("-------------------");
             Console.WriteLine("Escolha uma das operações:");
@@ -105,14 +118,17 @@ namespace Calculadora
             return a * b;
         }
 
-        private static double divisao(double a, double b)
+        private static double divisao(int a, int b)
         {
+            double aDouble = Convert.ToDouble(a);
+            double bDouble = Convert.ToDouble(b);
+
             double resposta = 0.0;
             try
             {
-                if (b != 0)
+                if (bDouble != 0.0)
                 {
-                    resposta = a / b;
+                    resposta = aDouble / bDouble;
                 }
             }
             catch
