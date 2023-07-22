@@ -4,10 +4,11 @@ namespace Calculadora
 {
     class Program {
         static void Main(string[] args) {
-            int opcao;
-            double a, b, resposta = 0.0;
+            //int opcao;
+            //double a, b, resposta = 0.0;
 
-            opcao = ValidarOpcaoMenu();
+            EscolherOpcaoMenu();
+            /*opcao = ValidarOpcaoMenu();
             while (opcao != 0) {
                 a = LerNumero("Digite o primeiro número: ");
                 b = LerNumero("Digite o segundo número: ");
@@ -28,6 +29,7 @@ namespace Calculadora
                 Console.WriteLine("Resposta = " + resposta);
                 opcao = ValidarOpcaoMenu();
             }
+            */
         }
 
         private static void Menu() {
@@ -61,7 +63,31 @@ namespace Calculadora
                 }
             } while (!opcaoValida);
             return opcaoMenu;
+        }
 
+        private static void EscolherOpcaoMenu() {
+            int opcao = ValidarOpcaoMenu();
+            double a, b, resposta = 0.0;
+            while (opcao != 0) {
+                a = LerNumero("Digite o primeiro número: ");
+                b = LerNumero("Digite o segundo número: ");
+                switch (opcao) {
+                    case 1:
+                        resposta = Soma(a, b);
+                        break;
+                    case 2:
+                        resposta = Subtracao(a, b);
+                        break;
+                    case 3:
+                        resposta = Multiplicacao(a, b);
+                        break;
+                    case 4:
+                        resposta = Divisao(a, b);
+                        break;
+                }
+                Console.WriteLine("Resposta = " + resposta);
+                opcao = ValidarOpcaoMenu();
+            }
         }
 
         private static double LerNumero(string mensagem) {
