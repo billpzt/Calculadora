@@ -2,36 +2,35 @@
 
 namespace Calculadora
 {
-    class Program
-    {
+    class Program {
         static void Main(string[] args) {
             int opcao;
             double a, b, resposta = 0.0;
-           
-            opcao = menu();
+
+            opcao = ValidarOpcaoMenu();
             while (opcao != 0) {
-                a = lerNumero("Digite o primeiro número: ");
-                b = lerNumero("Digite o segundo número: ");
+                a = LerNumero("Digite o primeiro número: ");
+                b = LerNumero("Digite o segundo número: ");
                 switch(opcao) {
                     case 1:
-                        resposta = soma(a, b);
+                        resposta = Soma(a, b);
                         break;
                     case 2:
-                        resposta = subtracao(a, b);
+                        resposta = Subtracao(a, b);
                         break;
                     case 3:
-                        resposta = multiplicacao(a, b);
+                        resposta = Multiplicacao(a, b);
                         break;
                     case 4:
-                        resposta = (double)divisao(a, b);
+                        resposta = Divisao(a, b);
                         break;
                 }
-                    Console.WriteLine("Resposta = " + resposta);
-                opcao = menu();
+                Console.WriteLine("Resposta = " + resposta);
+                opcao = ValidarOpcaoMenu();
             }
         }
 
-        private static int menu() {
+        private static void Menu() {
             Console.WriteLine("");
             Console.WriteLine("### CALCULADORA ###");
             Console.WriteLine("-------------------");
@@ -42,24 +41,30 @@ namespace Calculadora
             Console.WriteLine("4 - Divisão");
             Console.WriteLine("0 - Sair");
             Console.Write("Opção: ");
-            
-            bool opcaoValida = false;
-            int opcaoMenu = -1;
+        }
 
-            while (!opcaoValida) {
+        private static int ValidarOpcaoMenu() {
+            int opcaoMenu = 0;
+            bool opcaoValida = false;
+
+            do {
                 try {
+                    Menu();
                     opcaoMenu = int.Parse(Console.ReadLine());
                     if (opcaoMenu >= 0 && opcaoMenu <= 4) {
                         opcaoValida = true;
+                    } else {
+                        Console.WriteLine("Opcao inválida!");
                     }
                 } catch (Exception e) {
-                    Console.WriteLine("Opção inválida!");
+                    Console.WriteLine("Opcao deve ser numérica!");
                 }
-            }
+            } while (!opcaoValida);
             return opcaoMenu;
+
         }
 
-        private static double lerNumero(string mensagem) {
+        private static double LerNumero(string mensagem) {
             double numero = 0.0;
             bool numeroValido = false;
 
@@ -68,36 +73,31 @@ namespace Calculadora
                     Console.Write(mensagem);
                     numero = double.Parse(Console.ReadLine());
                     numeroValido = true;
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Console.WriteLine("Não é um número, tente novamente");
                 }
             }
             return numero;
         }
 
-        private static double soma(double a, double b) {
+        private static double Soma(double a, double b) {
             return a + b;
         }
 
-        private static double subtracao(double a, double b) {
+        private static double Subtracao(double a, double b) {
             return a - b;
         }
 
-        private static double multiplicacao(double a, double b) {
+        private static double Multiplicacao(double a, double b) {
             return a * b;
         }
 
-        private static double divisao(double a, double b) {
-            double aDouble = a;
-            double bDouble = b;
+        private static double Divisao(double a, double b) {
+            
             double resposta = 0.0;
-            try {
-                if (bDouble != 0.0) {
-                    resposta = aDouble / bDouble;
-                }
-            }
-            catch {
+            if (b != 0) {
+                resposta = a / b;
+            } else {
                 Console.WriteLine("Erro, divisão por zero!");
             }
             return resposta;
